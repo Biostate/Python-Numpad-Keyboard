@@ -46,13 +46,16 @@ def on_release(key):
                 if 0 <= int(key.char) <= 9:
                     currentKey = key.char
 
+    """ if currentKey is a number """
     if currentKey != None:
         print("You pressed: " + str(currentKey))
         keyboardController.tap(Key.backspace)
 
+        """ check time """
         if time.time() - lastKeyStrokeTime > 0.5:
             lastKey = None
 
+        """ check if same key pressed """
         if lastKey == currentKey:
             print("You pressed the same key")
             lastKeyStrike += 1
@@ -68,7 +71,7 @@ def on_release(key):
         print(numpad[currentKey][lastKeyStrike]);
         keyboardController.tap(numpad[currentKey][lastKeyStrike])
 
-        """ update last key """
+        """ update last key and time """
         lastKey = currentKey
         lastKeyStrokeTime = time.time()
 
