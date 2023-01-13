@@ -1,10 +1,13 @@
 from pynput.keyboard import Key, Listener, Controller
 from pynput import keyboard
 import time
+import platform
+
 
 keyboardController = Controller()
+osName = platform.system()
 
-print('Init')
+print('Init. You are running on: ' + osName)
 
 lastKey = None
 lastKeyStrike = 0
@@ -32,14 +35,16 @@ def on_release(key):
     if key == Key.esc:
         return False
 
-    if hasattr(key, 'vk') and key.vk != None and 96 <= key.vk <= 105:
-        if not hasattr(key, 'char'):
+    if osName == "Windows":
+        if hasattr(key, 'vk') and key.vk != None and 96 <= key.vk <= 105:
             currentKey = str(key.vk - 96)
-    if hasattr(key, 'vk') and key.vk != None and key.vk == 65437:
-        currentKey = "5"
-    elif hasattr(key, 'char') and key.char != None and key.char.isnumeric():
-            if 0 <= int(key.char) <= 9:
-                currentKey = key.char
+
+    if osName == "Linux":  
+        if hasattr(key, 'vk') and key.vk != None and key.vk == 65437:
+            currentKey = "5"
+        elif hasattr(key, 'char') and key.char != None and key.char.isnumeric():
+                if 0 <= int(key.char) <= 9:
+                    currentKey = key.char
 
     if currentKey != None:
         print("You pressed: " + str(currentKey))
